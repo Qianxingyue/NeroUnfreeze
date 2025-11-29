@@ -1,0 +1,246 @@
+<Window x:Class="NeroUnfreeze.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="设置 - NeroUnfreeze" Height="700" Width="900"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize"
+        WindowState="Normal">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 组合选择区域 -->
+        <GroupBox Header="组合管理" Grid.Row="0" Margin="0,0,0,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="PresetComboBox" Grid.Column="0" Margin="10" 
+                          SelectionChanged="PresetComboBox_SelectionChanged"/>
+                <Button Content="新增" Grid.Column="1" Margin="5" Padding="15,5" Click="AddPreset_Click"/>
+                <Button Content="删除" Grid.Column="2" Margin="5" Padding="15,5" Click="DeletePreset_Click"/>
+                <CheckBox x:Name="AutoStartCheckBox" Content="开机自启动" Grid.Column="3" 
+                          Margin="10" VerticalAlignment="Center"/>
+                <CheckBox x:Name="PreventMinimizeOnWinDCheckBox" Content="防止Win+D时图像消失" Grid.Column="4" 
+                          Margin="10" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- 设置内容区域 -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <Grid Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="10"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- 左侧：基本设置 -->
+                <GroupBox Header="基本设置" Grid.Column="0">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="名称:" Margin="0,5"/>
+                        <TextBox x:Name="NameTextBox" Margin="0,5" TextChanged="NameTextBox_TextChanged"/>
+
+                        <TextBlock Text="节日日期:" Margin="0,10,0,5"/>
+                        <DatePicker x:Name="TargetDatePicker" Margin="0,5" SelectedDateChanged="TargetDatePicker_SelectedDateChanged"/>
+
+                        <TextBlock Text="倒计时天数:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="CountdownDaysSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="1" Maximum="30" ValueChanged="CountdownDaysSlider_ValueChanged"/>
+                            <TextBox x:Name="CountdownDaysTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="CountdownDaysTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="角色图片路径:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="CharacterImagePathTextBox" Grid.Column="0" Margin="0,5" IsReadOnly="True"/>
+                            <Button Content="浏览" Grid.Column="1" Margin="10,5,0,5" Padding="15,5" 
+                                    Click="BrowseCharacterImage_Click"/>
+                        </Grid>
+
+                        <TextBlock Text="冰块图片路径:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="IceImagePathTextBox" Grid.Column="0" Margin="0,5" IsReadOnly="True"/>
+                            <Button Content="浏览" Grid.Column="1" Margin="10,5,0,5" Padding="15,5" 
+                                    Click="BrowseIceImage_Click"/>
+                        </Grid>
+
+                        <TextBlock Text="音频路径:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="AudioPathTextBox" Grid.Column="0" Margin="0,5" IsReadOnly="True"/>
+                            <Button Content="浏览" Grid.Column="1" Margin="10,5,5,5" Padding="15,5" 
+                                    Click="BrowseAudio_Click"/>
+                            <Button Content="预览" Grid.Column="2" Margin="5,5,0,5" Padding="15,5" 
+                                    Click="PreviewAudio_Click"/>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- 右侧：高级设置和预览 -->
+                <GroupBox Header="高级设置" Grid.Column="2">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="角色透明度:" Margin="0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="CharacterOpacitySlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0" Maximum="1" ValueChanged="CharacterOpacitySlider_ValueChanged"/>
+                            <TextBox x:Name="CharacterOpacityTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="CharacterOpacityTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="冰块透明度:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="IceOpacitySlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0" Maximum="1" ValueChanged="IceOpacitySlider_ValueChanged"/>
+                            <TextBox x:Name="IceOpacityTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="IceOpacityTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="角色图片缩放:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="CharacterImageScaleSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0.1" Maximum="3.0" ValueChanged="CharacterImageScaleSlider_ValueChanged"/>
+                            <TextBox x:Name="CharacterImageScaleTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="CharacterImageScaleTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="冰块图片缩放:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="IceImageScaleSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0.1" Maximum="3.0" ValueChanged="IceImageScaleSlider_ValueChanged"/>
+                            <TextBox x:Name="IceImageScaleTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="IceImageScaleTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="角色位置 X:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="CharacterOffsetXSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="-200" Maximum="200" ValueChanged="CharacterOffsetXSlider_ValueChanged"/>
+                            <TextBox x:Name="CharacterOffsetXTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="CharacterOffsetXTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="角色位置 Y:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="CharacterOffsetYSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="-200" Maximum="200" ValueChanged="CharacterOffsetYSlider_ValueChanged"/>
+                            <TextBox x:Name="CharacterOffsetYTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="CharacterOffsetYTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="冰块位置 X:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="IceOffsetXSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="-200" Maximum="200" ValueChanged="IceOffsetXSlider_ValueChanged"/>
+                            <TextBox x:Name="IceOffsetXTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="IceOffsetXTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="冰块位置 Y:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="IceOffsetYSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="-200" Maximum="200" ValueChanged="IceOffsetYSlider_ValueChanged"/>
+                            <TextBox x:Name="IceOffsetYTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="IceOffsetYTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="音频最大模糊度:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="MaxAudioBlurSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0" Maximum="1" ValueChanged="MaxAudioBlurSlider_ValueChanged"/>
+                            <TextBox x:Name="MaxAudioBlurTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="MaxAudioBlurTextBox_TextChanged"/>
+                        </Grid>
+
+                        <TextBlock Text="音频最小音量:" Margin="0,10,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="MinAudioVolumeSlider" Grid.Column="0" Margin="0,5" 
+                                    Minimum="0" Maximum="1" ValueChanged="MinAudioVolumeSlider_ValueChanged"/>
+                            <TextBox x:Name="MinAudioVolumeTextBox" Grid.Column="1" Width="50" Margin="10,5,0,5" 
+                                     TextChanged="MinAudioVolumeTextBox_TextChanged"/>
+                        </Grid>
+
+                        <!-- 预览区域 -->
+                        <GroupBox Header="实时预览" Margin="0,20,0,0">
+                            <Canvas Margin="10" Height="200" Background="#F0F0F0">
+                                <Image x:Name="PreviewCharacterImage" Stretch="Uniform"/>
+                                <Image x:Name="PreviewIceImage" Stretch="Uniform"/>
+                            </Canvas>
+                        </GroupBox>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </ScrollViewer>
+
+        <!-- 底部按钮 -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="确定" Width="100" Height="35" Margin="5" Click="OK_Click"/>
+            <Button Content="取消" Width="100" Height="35" Margin="5" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+
