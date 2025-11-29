@@ -1,0 +1,24 @@
+{
+  "DefaultPreset": {
+    "Name": "圣诞节",
+    "TargetDate": "2025-12-25T00:00:00",
+    "CountdownDays": 14,
+    "CharacterImagePath": "Nero.png",
+    "IceImagePath": "FreezeNero.png",
+    "AudioPath": "nero.mp3",
+    "CharacterOpacity": 1.0,
+    "IceOpacity": 1.0,
+    "CharacterImageScale": 1.0,
+    "IceImageScale": 1.0,
+    "CharacterOffsetX": 0.0,
+    "CharacterOffsetY": 0.0,
+    "IceOffsetX": 0.0,
+    "IceOffsetY": 0.0,
+    "MaxAudioBlur": 1.0,
+    "MinAudioVolume": 1.0
+  },
+  "DefaultConfig": {
+    "AutoStart": true,
+    "PreventMinimizeOnWinD": false
+  }
+}

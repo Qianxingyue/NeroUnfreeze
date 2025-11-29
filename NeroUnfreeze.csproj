@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <AssemblyName>NeroUnfreeze</AssemblyName>
+    <RootNamespace>NeroUnfreeze</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <!-- default-config.json 不复制到输出目录，仅用于编译时生成 NeroUnfreezeConfig.json -->
+  </ItemGroup>
+
+  <!-- 编译时从 default-config.json 生成 NeroUnfreezeConfig.json -->
+  <Target Name="GenerateNeroUnfreezeConfig" BeforeTargets="BeforeBuild">
+    <PropertyGroup>
+      <DefaultConfigSource>$(MSBuildProjectDirectory)\default-config.json</DefaultConfigSource>
+      <OutputConfigFile>$(OutputPath)NeroUnfreezeConfig.json</OutputConfigFile>
+    </PropertyGroup>
+    <Copy SourceFiles="$(DefaultConfigSource)" 
+          DestinationFiles="$(OutputConfigFile)" 
+          Condition="Exists('$(DefaultConfigSource)')" />
+  </Target>
+
+  <!-- 发布时也生成 NeroUnfreezeConfig.json -->
+  <Target Name="GenerateNeroUnfreezeConfigOnPublish" AfterTargets="Publish">
+    <PropertyGroup>
+      <DefaultConfigSource>$(MSBuildProjectDirectory)\default-config.json</DefaultConfigSource>
+      <PublishConfigFile>$(PublishDir)NeroUnfreezeConfig.json</PublishConfigFile>
+    </PropertyGroup>
+    <Copy SourceFiles="$(DefaultConfigSource)" 
+          DestinationFiles="$(PublishConfigFile)" 
+          Condition="Exists('$(DefaultConfigSource)')" />
+  </Target>
+
+</Project>
+
